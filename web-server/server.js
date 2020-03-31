@@ -1,5 +1,6 @@
 // httpとはNode.jsが用意しているモジュールです。
 var http = require('http');
+// ポート番号とホスト名は別ファイルに切り出しています。
 var settings = require('./settings');
 var server = http.createServer();
 // Requestされた時の処理はコールバック関数に定義します。
