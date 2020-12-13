@@ -1,12 +1,27 @@
 var express = require('express'),
-    app = express();
+    app = express(),
+    logger = require('morgan');
 
-// Express 4.x系では以下のコードは不要になります
-// app.use(app.router);
+/* ログ出力 */
+app.use(logger('dev'));
 
+/* 
+  publicフォルダのファイルの内容を返却します。
+  pathにファイル名を含める必要があります。
+  http://localhost:3000/about.txt
+ */
+app.use(express.static(__dirname + '/public'));
+
+/* 
+  http://localhost:3000/
+*/
 app.get('/', function(req, res) {
     res.send('hello world');
 });
+
+/* 
+  http://localhost:3000/about/
+*/
 app.get('/about', function(req, res) {
     res.send('about this page!');
 });
@@ -35,6 +50,15 @@ app.get('/users/:name?', function(req, res) {
 app.get('/items/:id([0-9]+)', function(req, res) {
     res.send('item no: ' + req.params.id);
 });
+
+/* 
+  hello.txtの内容を返却します。
+  http://localhost:3000/hello.txt
+ */
+app.get('/hello.txt', function(req, res) {
+  res.sendFile(__dirname + '/public/hello.txt');
+});
+
 
 app.listen(3000);
 console.log("server starting...");
