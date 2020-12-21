@@ -92,3 +92,12 @@ var logger = require('morgan');
 app.use(logger('dev'));
 ```
 <br>
+
+#### ミドルウェアを自作する方法
+```javascript
+app.use(function(req, res, next) {
+    console.log('my custom middleware !');
+    next();
+});
+```
+<br>

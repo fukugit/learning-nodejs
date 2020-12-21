@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     logger = require('morgan');
 
+/************ middleware ********************/
 /* ログ出力 */
 app.use(logger('dev'));
 
@@ -12,6 +13,17 @@ app.use(logger('dev'));
  */
 app.use(express.static(__dirname + '/public'));
 
+/* 
+  自作ミドルウェア
+  上のファイル内容を返却するミドルウェアに引っかからなければここに入ります。
+ */
+app.use(function(req, res, next) {
+    console.log('my custom middleware !');
+    next();
+});
+
+
+/************ APIs *************************/
 /* 
   http://localhost:3000/
 */
