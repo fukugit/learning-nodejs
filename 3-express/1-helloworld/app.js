@@ -14,6 +14,12 @@ app.use(logger('dev'));
 app.use(express.static(__dirname + '/public'));
 
 /* 
+  以下の2つはPOSTでパラメータを受け取る時に必要なミドルウェアです。
+ */
+app.use(express.json());
+app.use(express.urlencoded());
+
+/* 
   自作ミドルウェア
   上のファイル内容を返却するミドルウェアに引っかからなければここに入ります。
  */
@@ -71,6 +77,12 @@ app.get('/hello.txt', function(req, res) {
   res.sendFile(__dirname + '/public/hello.txt');
 });
 
+/* 
+  POSTでパラメータを受け取ります。
+ */
+app.post('/create', function(req, res) {
+  res.send('Name is ' + req.body.name);
+});
 
 app.listen(3000);
 console.log("server starting...");

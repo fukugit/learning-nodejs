@@ -6,7 +6,7 @@
 nodemonとは、jsの修正内容を即時反映してくれるパッケージです。
 ```sh 
 npm install
-nodemon ./1-helloworld/app
+nodemon app
 ```
 
 事前に以下を実行しておきます。  
@@ -18,13 +18,14 @@ npm install nodemon -g
 ### API概要
 | Method | API                             | 実行結果                          | 概要                 |
 | ------ | ------------------------------- | ----------------------------- | ------------------ |
-|        | http://localhost:3000/          | hello world                   |                    |
+|  GET      | http://localhost:3000/          | hello world                   |                    |
 |        | http://localhost:3000/about     | about this page!              |                    |
 |        | http://localhost:3000/users/    | hello nobody.                 |                    |
 |        | http://localhost:3000/users/tom | hello, tom                    | tomの部分は何でもOK       |
 |        | http://localhost:3000/items/10  | item no: 10                   | 10は数値であれば何でもOK     |
 |        | http://localhost:3000/hello.txt | Hello form hello.txt.         | publicフォルダ内のファイル参照 |
 |        | http://localhost:3000/about.txt | This is about from about.txt. | publicフォルダ内のファイル参照 |
+|   POST     | http://localhost:3000/create | Name is XXX | POSTでパラメタを受け取る方法 |
 <br>
 
 ### 学んだこと
@@ -98,6 +99,23 @@ app.use(logger('dev'));
 app.use(function(req, res, next) {
     console.log('my custom middleware !');
     next();
+});
+```
+<br>
+
+#### POSTで値を受け取る方法
+```javascript
+/* 
+  以下の2つはPOSTでパラメータを受け取る時に必要なミドルウェアです。
+ */
+app.use(express.json());
+app.use(express.urlencoded());
+
+/* 
+  POSTでパラメータを受け取ります。
+ */
+app.post('/create', function(req, res) {
+  res.send('Name is ' + req.body.name);
 });
 ```
 <br>
