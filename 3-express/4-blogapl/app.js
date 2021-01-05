@@ -1,6 +1,7 @@
 var express = require('express'),
     app = express(),
     logger = require('morgan'),
+    methodOverride = require('method-override'),
     post = require('./routes/post');
 
 
@@ -14,14 +15,19 @@ app.set('view engine', 'ejs');
 // middleware
 app.use(express.json());
 app.use(express.urlencoded());
-// app.use(express.methodOverride());
+app.use(methodOverride('_method'));  // PUT, DELETEを使うために必要です。
 
 
 
 /************ APIs *************************/
 app.get('/', post.index);
-app.get('/posts/:id', post.show);
-
+app.get('/posts/:id([0-9]+)', post.show);
+app.get('/posts/new', post.new);
+app.post('/posts/create', post.create);
+app.get('/posts/:id/edit', post.edit);
+// app.post('/posts/:id', post.update);     // putが使えない。。
+app.put('/posts/:id', post.update);     // putが使えない。。
+app.delete('/posts/:id', post.destroy);  // delete が使えない。。。
 
 
 app.listen(3000);
